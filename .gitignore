@@ -3,3 +3,9 @@
 
 # Virtual environments
 .venv
+
+# Logs
+/logs
+
+# Https key
+nginx/certs/

@@ -128,8 +128,7 @@ def monitor():
         },
         "db": {
             "ok": db_ok,
-            "error": db_error,
-            "pool": pool_status,
+            "error": db_error
         }
     }
 

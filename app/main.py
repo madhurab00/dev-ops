@@ -27,13 +27,15 @@ class InputRequest(BaseModel):
 # GET /health
 @app.get("/health")
 def health_check():
-    logger.log("Health check endpoint called.")
+    logger.info("Health check endpoint called.")
     return {"status":"ok"}
 
-@app.get("/sum")
+# Post /sum
+@app.post("/sum")
 def sum(payload:InputRequest):
     logger.info(f"Sum request received: a={payload.a}, b={payload.b}")
     result = payload.a + payload.b
     return {"result":result}
+
 
 

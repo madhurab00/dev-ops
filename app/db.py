@@ -22,7 +22,6 @@ def build_database_url() -> str:
 
 
 def create_db_engine() -> Engine:
-    # pool_pre_ping = checks stale connections (good reliability habit)
     return create_engine(build_database_url(), 
                          pool_pre_ping=True,
                          pool_size=5,

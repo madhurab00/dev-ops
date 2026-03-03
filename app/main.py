@@ -103,17 +103,15 @@ def monitor():
     uptime_s = time.time() - START_TIME
     avg_ms = (total_latency_ms / total_requests) if total_requests > 0 else 0.0
 
-    # DB probe + pool status
+    # DB 
     db_ok = False
     db_error = None
-    pool_status = None
     try:
         if engine is None:
             raise RuntimeError("engine not initialized")
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
         db_ok = True
-        pool_status = engine.pool.status()
     except Exception as e:
         db_error = str(e)
 
@@ -131,5 +129,3 @@ def monitor():
             "error": db_error
         }
     }
-
-

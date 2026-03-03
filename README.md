@@ -1,5 +1,7 @@
-# dev-ops
-Deploying a small production-style application stack using Docker and proper networking architecture.
+# Project dev-ops
+Deploying a small production-style application stack using Docker with proper network isolation and reverse proxy architecture.
+The system includes a reverse proxy (NGINX), two backend application instances (FastAPI), and a PostgreSQL database.
+It demonstrates horizontal scaling, secure internal networking, health checks, and containerized deployment using Docker Compose.
 
 ## 1. Architecture Diagram
 ```mermaid
@@ -60,15 +62,21 @@ NGINX:
 
 - Logs the request
 
-- Applies rate limiting (if enabled)
+- Applies rate limiting
 
-Forwards the request to backend
+- Load balance using least connection load balancing strategy
+
+Forwards the request to backend 
 
 It forwards to: backend:8000
 
 4️. Docker Internal DNS
 
-We run: docker compose up --scale backend=2
+We run:
+
+```bash
+docker compose up --build --scale backend=2
+```
 
 Scaling is done here.
 
@@ -181,3 +189,44 @@ By keeping DB and backend private, we reduce:
 - Accidental access (developers/users cannot hit DB/backend directly from outside the Docker networks).
 
 - Impact of compromise (even if NGINX is targeted, internal services remain isolated behind private networks).
+
+## 5. Tech Stack
+### Backend
+
+- Python 3.11
+
+- FastAPI
+
+- SQLAlchemy
+
+- psycopg (PostgreSQL driver)
+
+- Uvicorn
+
+### Database
+
+- PostgreSQL 16
+
+- Docker volume for data persistence
+
+- Reverse Proxy
+
+### Reverse Proxy (NGINX)
+
+- TLS termination
+
+- Load balancing
+
+- Rate limiting
+
+### Containerization
+
+- Docker
+
+- Docker Compose
+
+### Networking
+
+- Internal Docker networks
+
+- Service discovery using Docker DNS
